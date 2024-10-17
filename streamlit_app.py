@@ -70,8 +70,12 @@ def parse_df_maxx(df):
                 min_val = df[col_name].min()
                 max_val = df[col_name].max()
             elif df[col_name].dtype == 'object':
-                min_val = df[col_name].min() if not df[col_name].empty else 'N/A'
-                max_val = df[col_name].max() if not df[col_name].empty else 'N/A'
+                try:
+                    min_val = df[col_name].min()
+                    max_val = df[col_name].max()
+                except TypeError:
+                    min_val = 'N/A'
+                    max_val = 'N/A'
             elif pd.api.types.is_datetime64_any_dtype(df[col_name]):
                 min_val = df[col_name].min()
                 max_val = df[col_name].max()

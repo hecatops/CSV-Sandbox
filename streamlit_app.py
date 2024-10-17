@@ -91,7 +91,7 @@ def parse_df_maxx(df):
 
 st.markdown("<h1 class='custom-header'>What's in my CSV?</h1>", unsafe_allow_html=True)
 
-uploaded_file = st.file_uploader("", type="csv")
+uploaded_file = st.file_uploader("", type="csv", label_visibility="hidden")
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)

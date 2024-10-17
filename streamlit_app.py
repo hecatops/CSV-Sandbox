@@ -95,7 +95,7 @@ uploaded_file = st.file_uploader("", type="csv")
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
-
+    df.columns = df.columns.str.replace('^Unnamed', 'Unnamed_Column', regex=True)
     st.markdown("<h1 class='custom-sub'>Shape of Data</h1>", unsafe_allow_html=True)
     cols = st.columns(3)
     with cols[0]:

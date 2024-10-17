@@ -89,8 +89,6 @@ def parse_df_maxx(df):
     info_df = pd.DataFrame(parsed_data, columns=['#', 'Column', 'Non-Null Count', 'Dtype', 'Min', 'Max'])
     return info_df
 
-st.markdown("<h1 class='custom-header'>What's in my CSV?</h1>", unsafe_allow_html=True)
-
 uploaded_file = st.file_uploader("", type="csv", label_visibility="hidden")
 
 if uploaded_file is not None:
@@ -129,11 +127,11 @@ if uploaded_file is not None:
             for col in date_cols:
                 st.subheader(f"Line Chart for {col}")
                 st.line_chart(df[col])
- except pd.errors.ParserError:
+    except pd.errors.ParserError:
         st.error("There was an error parsing the CSV file. Please check the file format and try again.")
     
- except KeyError as e:
+    except KeyError as e:
         st.error(f"Column {e} is missing from the dataset. Please check the dataset and try again.")
     
- except Exception as e:
+    except Exception as e:
         st.error(f"An unexpected error occurred: {str(e)}. Please try again with a different dataset.")

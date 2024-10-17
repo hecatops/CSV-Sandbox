@@ -88,6 +88,8 @@ def parse_df_maxx(df):
 
     info_df = pd.DataFrame(parsed_data, columns=['#', 'Column', 'Non-Null Count', 'Dtype', 'Min', 'Max'])
     return info_df
+    
+st.markdown("<h1 class='custom-header'>What's in my CSV?</h1>", unsafe_allow_html=True)
 
 uploaded_file = st.file_uploader("", type="csv", label_visibility="hidden")
 

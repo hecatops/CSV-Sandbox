@@ -17,7 +17,7 @@ st.markdown("""
         background: linear-gradient(to right, #00bbf9, #caf0f8);
         -webkit-text-fill-color: transparent;
         -webkit-background-clip: text;
-        font-size: 9rem;
+        font-size: 5rem;
         text-align: center;
         margin-bottom: 1rem;
     }
@@ -25,7 +25,7 @@ st.markdown("""
         background: linear-gradient(to right, #00bbf9, #caf0f8);
         -webkit-text-fill-color: transparent;
         -webkit-background-clip: text;
-        font-size: 3rem;
+        font-size: 2rem;
 
     }
     .metric-card {
@@ -40,10 +40,10 @@ st.markdown("""
         height: 100%;
     }
     .metric-card h2 {
-        font-size: 2rem;
+        font-size: 1rem;
     }
     .metric-card p {
-        font-size: 5rem;
+        font-size: 4rem;
         color: #caf0f8;
         font-weight: bold;
     }

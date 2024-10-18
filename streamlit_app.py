@@ -17,7 +17,7 @@ st.markdown("""
         background: linear-gradient(to right, #00bbf9, #caf0f8);
         -webkit-text-fill-color: transparent;
         -webkit-background-clip: text;
-        font-size: 5rem;
+        font-size: 9rem;
         text-align: center;
         margin-bottom: 1rem;
     }
@@ -25,8 +25,7 @@ st.markdown("""
         background: linear-gradient(to right, #00bbf9, #caf0f8);
         -webkit-text-fill-color: transparent;
         -webkit-background-clip: text;
-        font-size: 2rem;
-
+        font-size: 3rem;
     }
     .metric-card {
         border-radius: 10px;
@@ -40,10 +39,10 @@ st.markdown("""
         height: 100%;
     }
     .metric-card h2 {
-        font-size: 1rem;
+        font-size: 2rem;
     }
     .metric-card p {
-        font-size: 4rem;
+        font-size: 5rem;
         color: #caf0f8;
         font-weight: bold;
     }
@@ -66,74 +65,73 @@ def parse_df_maxx(df):
             non_null = f"{parts[2]} non-null"
             dtype = ' '.join(parts[3:])
             
-            if df[col_name].dtype in ['int64', 'float64']:
-                min_val = df[col_name].min()
-                max_val = df[col_name].max()
-            elif df[col_name].dtype == 'object':
-                try:
+            try:
+                if df[col_name].dtype in ['int64', 'float64']:
                     min_val = df[col_name].min()
                     max_val = df[col_name].max()
-                except TypeError:
+                elif df[col_name].dtype == 'object':
+                    min_val = df[col_name].min() if not df[col_name].empty else 'N/A'
+                    max_val = df[col_name].max() if not df[col_name].empty else 'N/A'
+                elif pd.api.types.is_datetime64_any_dtype(df[col_name]):
+                    min_val = df[col_name].min()
+                    max_val = df[col_name].max()
+                else:
                     min_val = 'N/A'
                     max_val = 'N/A'
-            elif pd.api.types.is_datetime64_any_dtype(df[col_name]):
-                min_val = df[col_name].min()
-                max_val = df[col_name].max()
-            else:
-                min_val = 'N/A'
-                max_val = 'N/A'
+            except Exception as e:
+                min_val = 'Error'
+                max_val = 'Error'
             
             parsed_data.append([str(col_number), col_name, non_null, dtype, str(min_val), str(max_val)])
             col_number += 1
 
     info_df = pd.DataFrame(parsed_data, columns=['#', 'Column', 'Non-Null Count', 'Dtype', 'Min', 'Max'])
     return info_df
-    
+
 st.markdown("<h1 class='custom-header'>What's in my CSV?</h1>", unsafe_allow_html=True)
 
-uploaded_file = st.file_uploader("", type="csv", label_visibility="hidden")
+uploaded_file = st.file_uploader("", type="csv")
 
 if uploaded_file is not None:
     try:
         df = pd.read_csv(uploaded_file)
-        if df.empty:
-            st.error("The uploaded CSV file is empty. Please upload a valid dataset.")
-        else:    
-            df_filled = df.fillna("N/A")
-            
-            df.columns = [f"Unnamed_Column_{i}" if "Unnamed" in col else col for i, col in enumerate(df.columns)]
-        
-            st.markdown("<h1 class='custom-sub'>Shape of Data</h1>", unsafe_allow_html=True)
-            cols = st.columns(3)
-            with cols[0]:
-                with st.container():
-                    st.markdown("""<div class="metric-card"><h2>Number of Rows</h2><p>{}</p></div>""".format(df.shape[0]), unsafe_allow_html=True)
-            with cols[1]:    
-                with st.container():
-                    st.markdown("""<div class="metric-card"><h2>Number of Columns</h2><p>{}</p></div>""".format(df.shape[1]), unsafe_allow_html=True)
-            with cols[2]:    
-                with st.container():
-                    st.markdown("""<div class="metric-card"><h2>Number of Null Values</h2><p>{}</p></div>""".format(df.isnull().sum().sum()), unsafe_allow_html=True)
-        
-            st.markdown("<h1 class='custom-sub'>Description of Data</h1>", unsafe_allow_html=True)
-        
-            with card_container(key="table1"):
+    except Exception as e:
+        st.error(f"Error loading CSV file: {str(e)}")
+        st.stop()
+
+    if 'df' in locals() and isinstance(df, pd.DataFrame):
+        st.markdown("<h1 class='custom-sub'>Shape of Data</h1>", unsafe_allow_html=True)
+        cols = st.columns(3)
+        with cols[0]:
+            with st.container():
+                st.markdown(f"""<div class="metric-card"><h2>Number of Rows</h2><p>{df.shape[0]}</p></div>""", unsafe_allow_html=True)
+        with cols[1]:    
+            with st.container():
+                st.markdown(f"""<div class="metric-card"><h2>Number of Columns</h2><p>{df.shape[1]}</p></div>""", unsafe_allow_html=True)
+        with cols[2]:    
+            with st.container():
+                st.markdown(f"""<div class="metric-card"><h2>Number of Null Values</h2><p>{df.isnull().sum().sum()}</p></div>""", unsafe_allow_html=True)
+
+        st.markdown("<h1 class='custom-sub'>Description of Data</h1>", unsafe_allow_html=True)
+
+        with card_container(key="table1"):
+            try:
                 info_df = parse_df_maxx(df)
-                ui.table(data=info_df, maxHeight=300)    
-        
-            st.markdown("<h1 class='custom-sub'>Head of Data</h1>", unsafe_allow_html=True)
-            with card_container(key="table2"):
-                ui.table(data=df_filled.head(10), maxHeight=300)
-        
+                ui.table(data=info_df, maxHeight=300)
+            except Exception as e:
+                st.error(f"Error generating data description: {str(e)}")
+
+        st.markdown("<h1 class='custom-sub'>Head of Data</h1>", unsafe_allow_html=True)
+        with card_container(key="table2"):
+            try:
+                ui.table(data=df.head(10), maxHeight=300)
+            except Exception as e:
+                st.error(f"Error displaying data head: {str(e)}")
+
+        try:
             date_cols = df.select_dtypes(include=['datetime64']).columns
             for col in date_cols:
                 st.subheader(f"Line Chart for {col}")
                 st.line_chart(df[col])
-    except pd.errors.ParserError:
-        st.error("There was an error parsing the CSV file. Please check the file format and try again.")
-    
-    except KeyError as e:
-        st.error(f"Column {e} is missing from the dataset. Please check the dataset and try again.")
-    
-    except Exception as e:
-        st.error(f"An unexpected error occurred: {str(e)}. Please try again with a different dataset.")
+        except Exception as e:
+            st.error(f"Error generating date column charts: {str(e)}")

@@ -26,7 +26,7 @@ source venv/bin/activate  # On Windows use `venv\Scripts\activate`</code></pre>
     </li>
     <li>
         <strong>Run the Streamlit App:</strong>
-        <pre><code>streamlit run streamlit_app.py</code></pre>
+        <pre><code>streamlit run Home.py</code></pre>
     </li>
     <li>
         <strong>Access the App:</strong>

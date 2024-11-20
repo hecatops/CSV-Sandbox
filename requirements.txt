@@ -4,3 +4,4 @@ seaborn==0.11.2
 matplotlib==3.4.3
 numpy==1.21.2
 scikit-learn==0.24.2
+configparser==7.1.0

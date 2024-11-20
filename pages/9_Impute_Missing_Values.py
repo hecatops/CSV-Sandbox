@@ -16,8 +16,9 @@ def main():
         
         if columns_with_missing:
             selected_column = st.selectbox("Select column to impute", options=columns_with_missing)
+           
             dtype = data[selected_column].dtype
-            
+         
             if pd.api.types.is_numeric_dtype(dtype):
                 imputation_method = st.radio("Select imputation method", options=["Mean", "Median", "Mode", "Constant"])
             else:
@@ -28,20 +29,20 @@ def main():
             
             if st.button("Impute"):
                 if imputation_method == "Mean" and pd.api.types.is_numeric_dtype(dtype):
-                    data[selected_column].fillna(data[selected_column].mean(), inplace=True)
+                    data[selected_column] = data[selected_column].fillna(data[selected_column].mean())
                 elif imputation_method == "Median" and pd.api.types.is_numeric_dtype(dtype):
-                    data[selected_column].fillna(data[selected_column].median(), inplace=True)
+                    data[selected_column] = data[selected_column].fillna(data[selected_column].median())
                 elif imputation_method == "Mode":
-                    data[selected_column].fillna(data[selected_column].mode()[0], inplace=True)
+                    data[selected_column] = data[selected_column].fillna(data[selected_column].mode()[0])
                 elif imputation_method == "Constant":
-                    data[selected_column].fillna(constant_value, inplace=True)
+                    data[selected_column] = data[selected_column].fillna(constant_value)
                 
                 st.success(f"Missing values in column '{selected_column}' have been imputed using {imputation_method.lower()} method.")
                 st.session_state['data'] = data
                 
                 st.write("Updated Data:")
                 st.dataframe(data)
-                
+ 
                 csv = data.to_csv(index=False).encode('utf-8')
                 st.download_button(
                     label="Download updated data as CSV",

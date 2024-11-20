@@ -1,14 +1,9 @@
 import streamlit as st
-import streamlit_shadcn_ui as ui
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import io
-from local_components import card_container
+
 
 st.set_page_config(page_title="Home", page_icon="✨", layout="wide")
-# CSS styles
+
 with open("styles.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
@@ -61,20 +56,17 @@ def read_csv(file, encoding='utf-8'):
 
 st.markdown("<h1 class='custom-header'>What's in my CSV?</h1>", unsafe_allow_html=True)
 
-# Sidebar for file upload and sample data
-with st.sidebar:
-    uploaded_file = st.file_uploader("Upload your CSV file", type="csv")
-    use_sample = st.button("Use Spotify Dataset")
+
+uploaded_file = st.file_uploader("Upload your CSV file", type="csv")
+use_sample = st.button("Use Spotify Dataset")
     
-    # Add encoding selector
-    if uploaded_file is not None:
-        encoding = st.selectbox(
-            "Select file encoding",
-            ['utf-8', 'latin1', 'iso-8859-1', 'cp1252'],
-            index=0
+if uploaded_file is not None:
+    encoding = st.selectbox(
+        "Select file encoding",
+        ['utf-8', 'latin1', 'iso-8859-1', 'cp1252'],
+        index=0
         )
 
-# Load data based on user choice
 df = None or st.session_state['data']
 if uploaded_file is not None:
     try:
@@ -88,8 +80,6 @@ elif use_sample:
         st.success("Loaded Spotify dataset!")
 
 if df is not None and not df.empty:
-    # Display basic metrics
-    st.markdown("<h1 class='custom-sub'>Shape of Data</h1>", unsafe_allow_html=True)
     cols = st.columns(3)
     
     metrics = [

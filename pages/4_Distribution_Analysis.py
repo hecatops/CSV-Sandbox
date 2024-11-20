@@ -3,27 +3,22 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-st.set_page_config(page_title="Distribution Analysis", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Distribution Analysis", page_icon="✨", layout="wide")
 
-# Load CSS styles
 with open("styles.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 def main():
     st.markdown("<h1 class='custom-sub'>Distribution Analysis</h1>", unsafe_allow_html=True)
     
-    # Access data from session state
     if 'data' in st.session_state:
         data = st.session_state['data']
-        
-        # Select only numerical columns
+      
         numerical_columns = data.select_dtypes(include=[np.number]).columns.tolist()
         
         if numerical_columns:
-            # Column selection
             selected_column = st.selectbox("Select column to view distribution", options=numerical_columns)
             
-            # Plot histogram
             fig, ax = plt.subplots(figsize=(10, 6))
             ax.hist(data[selected_column].dropna(), bins=30, color='skyblue', edgecolor='black')
             ax.set_title(f'Distribution of {selected_column}', color='white')

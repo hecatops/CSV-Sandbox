@@ -2,23 +2,19 @@ import streamlit as st
 
 st.set_page_config(page_title="Column Information", page_icon="✨", layout="wide")
 
-# Load CSS styles
 with open("styles.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 def main():
     st.markdown("<h1 class='custom-sub'>Column Information</h1>", unsafe_allow_html=True)
     
-    # Access data from session state
     if 'data' in st.session_state:
         data = st.session_state.data
         
-        # Column search option
         selected_columns = st.multiselect("Select columns to view", options=data.columns, default=data.columns)
         
-        # Display data summary in a grid layout
-        columns = st.columns(2)  # Create 2 columns
-        col_index = 0  # Initialize column index
+        columns = st.columns(2)
+        col_index = 0 
         
         for column in selected_columns:
             with columns[col_index]:
@@ -38,7 +34,7 @@ def main():
                         st.write(f"**Categorical Data:** No")
 
                     st.write(data[column].head())    
-            col_index = (col_index + 1) % 2  # Move to the next column, wrap around after 2 columns
+            col_index = (col_index + 1) % 2 
     else:
         st.write("No data available.")
 

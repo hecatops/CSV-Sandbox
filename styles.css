@@ -23,7 +23,7 @@
     }
     .metric-card {
         border-radius: 10px;
-        box-shadow: 0 4px 6px 0 rgba(160, 160, 160, 0.3);
+        box-shadow: 0 4px 6px 0 rgba(255, 242, 242, 0.3);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -35,11 +35,11 @@
         font-size: 1.5rem;
     }
     .metric-card p {
-        font-size: 3rem;
+        font-size: 2.5rem;
         color: #9de3f2;
         font-weight: bold;
     }
 
     .st-expander {
-        overflow: visible !important;  /* Ensure long text is fully visible */
+        overflow: visible !important;
     }

@@ -6,9 +6,8 @@ import numpy as np
 import concurrent.futures
 import time
 
-st.set_page_config(page_title="Custom Plots", page_icon="📈", layout="wide")
+st.set_page_config(page_title="Custom Plots", page_icon="✨", layout="wide")
 
-# Load CSS styles
 with open("styles.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
@@ -36,28 +35,23 @@ def plot_data(plot_type, data, x_axis, y_axis):
 def main():
     st.markdown("<h1 class='custom-sub'>Custom Plots</h1>", unsafe_allow_html=True)
     
-    # Access data from session state
     if 'data' in st.session_state:
         data = st.session_state['data']
         
-        # Select only numeric columns
         numeric_columns = data.select_dtypes(include=[np.number]).columns.tolist()
         
         if numeric_columns:
-            # Select columns for X and Y axes
             x_axis = st.selectbox("Select X axis", options=numeric_columns)
             y_axis = st.selectbox("Select Y axis", options=numeric_columns)
             
-            # Select plot type
             plot_type = st.radio("Select plot type", options=["Scatter Plot", "Line Plot", "Bar Plot"])
             
-            # Add Plot button
             if st.button("Plot"):
                 with st.spinner('Generating plot...'):
                     try:
                         with concurrent.futures.ThreadPoolExecutor() as executor:
                             future = executor.submit(plot_data, plot_type, data, x_axis, y_axis)
-                            fig = future.result(timeout=10)  # Set timeout in seconds
+                            fig = future.result(timeout=10) 
                             st.pyplot(fig)
                     except concurrent.futures.TimeoutError:
                         st.error("Plotting took too long. Please try with a smaller dataset or different parameters.")

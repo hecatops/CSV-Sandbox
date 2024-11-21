@@ -22,9 +22,9 @@ def main():
             
             fig, ax = plt.subplots(figsize=(12, 10))
             if numerical_data.shape[1] < 25:
-                sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", ax=ax)
+                sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="twilight", ax=ax)
             else:
-                sns.heatmap(corr_matrix, annot=False, cmap="coolwarm", ax=ax)
+                sns.heatmap(corr_matrix, annot=False, cmap="twilight", ax=ax)
             ax.set_title("Correlation Matrix", color='white')
             fig.patch.set_facecolor('#0E1117')
             ax.set_facecolor('#0E1117')

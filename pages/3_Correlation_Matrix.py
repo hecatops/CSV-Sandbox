@@ -21,7 +21,10 @@ def main():
             corr_matrix = numerical_data.corr()
             
             fig, ax = plt.subplots(figsize=(12, 10))
-            sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="twilight", center=0, ax=ax)
+            if numerical_data.shape[1] < 25:
+                sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", ax=ax)
+            else:
+                sns.heatmap(corr_matrix, annot=False, cmap="coolwarm", ax=ax)
             ax.set_title("Correlation Matrix", color='white')
             fig.patch.set_facecolor('#0E1117')
             ax.set_facecolor('#0E1117')

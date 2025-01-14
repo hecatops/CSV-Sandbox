@@ -1,6 +1,7 @@
 import streamlit as st
+import pandas as pd
 
-st.set_page_config(page_title="Column Information", page_icon="✨", layout="wide")
+st.set_page_config(page_title="Column Information", page_icon="🏛️", layout="wide")
 
 with open("styles.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -27,13 +28,23 @@ def main():
                     st.write(f"**Data Type:** {dtype}")
                     st.write(f"**Null Values:** {data[column].isnull().sum()}")
                     
+                    first_values = data[column].dropna().head(4).tolist()
+                    st.write(f"**Preview Data:** {', '.join(map(str, first_values))}")
+
                     if is_categorical:
                         st.write(f"**Categorical Data:** Yes")
                         st.write(f"**Unique Values:** {num_unique}")
                     else:
                         st.write(f"**Categorical Data:** No")
 
-                    st.write(data[column].head())    
+                        if pd.api.types.is_numeric_dtype(data[column]):
+                            mean_value = data[column].mean()
+                            min_value = data[column].min()
+                            max_value = data[column].max()
+                            st.write(f"**Mean:** {mean_value}")
+                            st.write(f"**Minimum:** {min_value}")
+                            st.write(f"**Maximum:** {max_value}")
+                        
             col_index = (col_index + 1) % 2 
     else:
         st.write("No data available.")

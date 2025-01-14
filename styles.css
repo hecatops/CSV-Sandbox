@@ -3,19 +3,19 @@
         color: #ffffff;
         font-size: 1rem;
     }
-    .custom-header {
-        background: linear-gradient(to right, #00bbf9, #caf0f8);
+    h1.custom-header {
+        background: linear-gradient(to right, #ffba49 30%, #20a39e 60%);
         -webkit-text-fill-color: transparent;
         -webkit-background-clip: text;
         background-clip: text;
-        font-size: 4rem;
+        font-size: 5rem;
         text-align: center;
-        margin-bottom: 1rem;
+        margin-bottom: 0.2rem;
         margin-top: 0;
         padding-top: 0;  
     }
     .custom-sub {
-        background: linear-gradient(to right, #00bbf9, #caf0f8);
+        background: linear-gradient(to right, #ffba49 30%, #20a39e 60%);
         -webkit-text-fill-color: transparent;
         -webkit-background-clip: text;
         background-clip: text;
@@ -23,20 +23,21 @@
     }
     .metric-card {
         border-radius: 10px;
-        box-shadow: 0 4px 6px 0 rgba(255, 242, 242, 0.3);
+        box-shadow: 1px 4px 6px 6px rgba(32, 163, 158, 0.25);
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
         height: 100%;
+        margin: 2rem;
     }
     .metric-card h2 {
         font-size: 1.5rem;
     }
     .metric-card p {
         font-size: 2.5rem;
-        color: #9de3f2;
+        color: #ffad2b;
         font-weight: bold;
     }
 

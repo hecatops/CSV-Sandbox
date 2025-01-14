@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="Data Head", page_icon="✨", layout="wide")
+st.set_page_config(page_title="Data Head", page_icon="🎩", layout="wide")
 
 with open("styles.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -12,8 +12,8 @@ def main():
     if 'data' in st.session_state:
         data = st.session_state['data']
         
-        st.write("First 10 Rows of the Data:")
-        st.dataframe(data.head(10))
+        st.write("Click on any column header to sort by that value.")
+        st.dataframe(data.head(20))
     else:
         st.write("No data available.")
 

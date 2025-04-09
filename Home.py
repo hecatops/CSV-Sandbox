@@ -52,7 +52,7 @@ def read_csv(file, encoding='utf-8'):
         st.error(f"An unexpected error occurred while reading the file: {str(e)}")
         return None
 
-st.markdown("<h1 class='custom-header'>CSV Sandbox</h1>", unsafe_allow_html=True)
+st.markdown("<h1 class='custom-header'>Insight Bench</h1>", unsafe_allow_html=True)
 
 uploaded_file = st.file_uploader("Upload your CSV file", type="csv")
 use_sample = st.button("Use Spotify Dataset")
